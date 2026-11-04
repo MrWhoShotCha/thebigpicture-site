@@ -69,18 +69,6 @@
         "pos": "50% 25%",
         "alt": "Woman in a champagne satin blouse, studio portrait",
         "tall": true
-      },
-      {
-        "src": "/media/portrait-2.jpg",
-        "pos": "48% 32%",
-        "tall": true,
-        "alt": "Smiling portrait of a woman in front of colorful fabrics"
-      },
-      {
-        "src": "/media/portrait-4.jpg",
-        "pos": "47% 30%",
-        "tall": true,
-        "alt": "Woman posing on a wooden pier at sunrise"
       }
     ]
   },
@@ -177,11 +165,6 @@
         "pos": "50% 25%",
         "alt": "Groom in a grey suit and pink vest",
         "tall": true
-      },
-      {
-        "src": "/media/couple-1.jpg",
-        "pos": "45% 38%",
-        "alt": "Couple kissing on a sunny street lined with palm trees"
       },
       {
         "src": "/media/wedding-05.jpg",
@@ -308,6 +291,18 @@
         "pos": "50% 30%",
         "alt": "Woman standing in the ocean at dusk",
         "tall": true
+      },
+      {
+        "src": "/media/portrait-2.jpg",
+        "pos": "48% 32%",
+        "tall": true,
+        "alt": "Smiling portrait of a woman in front of colorful fabrics"
+      },
+      {
+        "src": "/media/portrait-4.jpg",
+        "pos": "47% 30%",
+        "tall": true,
+        "alt": "Woman posing on a wooden pier at sunrise"
       }
     ]
   },
@@ -347,10 +342,9 @@
         "tall": true
       },
       {
-        "src": "/media/fitness-04.jpg",
-        "pos": "50% 30%",
-        "alt": "Woman in a teal crop top beside a fence of love locks",
-        "tall": true
+        "src": "/media/fitness-05.jpg",
+        "pos": "50% 35%",
+        "alt": "Woman in a teal crop top running down a city path"
       }
     ]
   },
