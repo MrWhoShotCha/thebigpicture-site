@@ -26,6 +26,11 @@ function write(path, html) {
   writeFileSync(file, html);
 }
 
+// ---------- brand ----------
+// "Big" in The Big Picture is always crimson. Applied to visible text only (never inside tags or scripts).
+const BRAND_HTML = 'The <span class="big">Big</span> Picture';
+const brandify = (html) => html.replace(/>([^<]+)</g, (m, t) => ">" + t.replace(/The Big Picture/g, BRAND_HTML) + "<");
+
 // ---------- layout ----------
 const NAV = [
   ["/work/", "Work"],
@@ -34,16 +39,59 @@ const NAV = [
   ["/faq/", "FAQ"],
 ];
 
-function layout({ path, title, description, body, jsonLd = "", scripts = "" }) {
-  pages.push(path);
-  const url = site.domain + path;
-  const fullTitle = path === "/" ? title : `${title} | ${site.name}`;
+const viewerMarkup = `
+<div class="viewer" id="viewer" role="dialog" aria-label="Full view">
+  <button class="btn close-btn" id="vClose" type="button">Close</button>
+  <button class="step prev" id="vPrev" type="button" aria-label="Previous">‹</button>
+  <div id="vStage"></div>
+  <button class="step next" id="vNext" type="button" aria-label="Next">›</button>
+</div>`;
+
+function header(path) {
   const nav = NAV.map(([href, label]) => `<a href="${href}"${path.startsWith(href) ? ' aria-current="page"' : ""}>${label}</a>`).join("");
+  return `<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="/" aria-label="The Big Picture, film and photography, home">
+      <span class="word">The <b class="big">Big</b> Picture</span>
+      <span class="sub">Film / Photography · Atlanta, GA</span>
+    </a>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Main">${nav}<a class="book" href="/book/">Book a shoot</a></nav>
+  </div>
+</header>`;
+}
+
+function footer() {
   const contact = [
     site.email && `<li><a href="mailto:${esc(site.email)}">${esc(site.email)}</a></li>`,
     site.phone && `<li><a href="tel:${esc(site.phone.replace(/[^\d+]/g, ""))}">${esc(site.phone)}</a></li>`,
     igUrl && `<li><a href="${igUrl}" rel="noopener">Instagram @${esc(site.instagram.replace(/^@/, ""))}</a></li>`,
   ].filter(Boolean).join("");
+  return `<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand"><span class="word">The <b class="big">Big</b> Picture</span><span class="sub">Film / Photography · Atlanta, GA</span></div>
+        <p style="margin-top:16px;max-width:420px">${esc(site.travelNote)}</p>
+      </div>
+      <div><h4>Explore</h4><ul>${NAV.map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join("")}<li><a href="/book/">Book a shoot</a></li></ul></div>
+      <div><h4>Contact</h4><ul>${contact || `<li><a href="/book/">Send an inquiry</a></li>`}<li>${esc(site.city)}</li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© ${YEAR} ${esc(site.legalName)} · ${esc(site.owner)}, ${esc(site.alias)}</span>
+      <span><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms &amp; booking policy</a></span>
+    </div>
+  </div>
+</footer>`;
+}
+
+function layout({ path, title, description, body, jsonLd = "", scripts = "", home = false, data = "", ogImage = "" }) {
+  pages.push(path);
+  const url = site.domain + path;
+  const fullTitle = path === "/" ? title : `${title} | ${site.name}`;
+  const page = home
+    ? `<div class="home-app">${header(path)}${body}</div>`
+    : `${header(path)}<main id="main">${body}</main>${footer()}`;
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -57,48 +105,20 @@ function layout({ path, title, description, body, jsonLd = "", scripts = "" }) {
 <meta property="og:title" content="${esc(fullTitle)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${url}">
-<meta name="theme-color" content="#0b0b0a">
+<meta property="og:image" content="${site.domain}${ogImage || "/media/portrait-2.jpg"}">
+<meta name="theme-color" content="#070d13">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Inter:wght@400;500;600&family=Share+Tech+Mono&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;1,6..96,500&family=Barlow+Condensed:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/styles.css">
 ${jsonLd}
 </head>
-<body>
+<body${home ? ' class="home"' : ""}>
+<div class="studio" aria-hidden="true"></div>
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
-  <div class="wrap">
-    <a class="logo" href="/" aria-label="${esc(site.name)} home">
-      <span class="logo-main">THE BIG PICTURE</span>
-      <span class="logo-sub">FILM / PHOTOGRAPHY</span>
-    </a>
-    <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
-    <nav class="nav" id="site-nav" aria-label="Main">
-      ${nav}
-      <a class="btn btn-primary" href="/book/">Book your project</a>
-    </nav>
-  </div>
-</header>
-<main id="main">
-${body}
-</main>
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <div class="logo"><span class="logo-main">THE BIG PICTURE</span><span class="logo-sub">FILM / PHOTOGRAPHY</span></div>
-        <p style="margin-top:16px;max-width:420px">${esc(site.travelNote)}</p>
-      </div>
-      <div><h4>Explore</h4><ul>${NAV.map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join("")}<li><a href="/book/">Book</a></li></ul></div>
-      <div><h4>Contact</h4><ul>${contact || `<li><a href="/book/">Send an inquiry</a></li>`}<li>${esc(site.city)}</li></ul></div>
-    </div>
-    <div class="foot-bottom">
-      <span>© ${YEAR} ${esc(site.legalName)}. ${esc(site.owner)} · ${esc(site.alias)}</span>
-      <span><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms &amp; booking policy</a></span>
-    </div>
-  </div>
-</footer>
+${brandify(page)}
+${data}
 <script src="/assets/js/site.js" defer></script>
 ${scripts}
 </body>
@@ -108,31 +128,34 @@ ${scripts}
 const ctaBand = (title = "Ready when you are.", text = "Tell me about your project. I reply " + site.responseTime + ".") => `
 <section class="cta-band rule">
   <div class="wrap">
-    <p class="eyebrow" style="justify-content:center">Now booking</p>
+    <p class="eyebrow">Now booking</p>
     <h2>${esc(title)}</h2>
-    <p class="lead" style="margin-inline:auto">${esc(text)}</p>
-    <div class="btn-row"><a class="btn btn-primary" href="/book/">Book your project</a><a class="btn" href="/work/">See the work</a></div>
+    <p class="lead">${esc(text)}</p>
+    <div class="btn-row"><a class="btn btn-primary" href="/book/">Book a shoot</a><a class="btn" href="/work/">See the work</a></div>
   </div>
 </section>`;
 
-function projectTile(p) {
-  const cat = catBySlug[p.category] || {};
-  const media = p.previewVideo
-    ? `<video src="${esc(p.previewVideo)}" muted loop playsinline preload="none" ${p.cover ? `poster="${esc(p.cover)}"` : ""} data-hover-play></video>`
-    : p.cover ? `<img src="${esc(p.cover)}" alt="" loading="lazy">` : "";
-  return `<a class="tile" href="/projects/${esc(p.slug)}/" style="--tint:${cat.tint || "#333"}">
-    ${media}
-    <span class="t-arrow">VIEW →</span>
-    <div class="t-body"><h3>${esc(p.title)}</h3><div class="t-meta">${esc(p.client || cat.name || "")}</div></div>
+const coverOf = (c) => {
+  const it = c.items && c.items[0];
+  return it ? (it.video ? it.poster : it.src) : "";
+};
+
+function categoryTile(c) {
+  const cover = coverOf(c);
+  const n = c.items.length;
+  return `<a class="tile" href="/work/${c.slug}/">
+    ${cover ? `<img src="${esc(cover)}" alt="" loading="lazy" style="object-position:${esc(c.items[0].pos || "50% 50%")}">` : ""}
+    <span class="t-arrow">${n ? `${n} ${n === 1 ? "PIECE" : "PIECES"}` : "COMING SOON"}</span>
+    <div class="t-body"><h3>${esc(c.name)}</h3><div class="t-meta">${esc(c.startingAt)}</div></div>
   </a>`;
 }
 
-function categoryTile(c) {
-  const cover = c.lensPoster || (c.lensImages && c.lensImages[0]) || "";
-  return `<a class="tile" href="/work/${c.slug}/" style="--tint:${c.tint}">
-    ${cover ? `<img src="${esc(cover)}" alt="" loading="lazy">` : ""}
-    <span class="t-arrow">→</span>
-    <div class="t-body"><h3>${esc(c.name)}</h3><div class="t-meta">${esc(c.startingAt)}</div></div>
+function projectTile(p) {
+  const cat = catBySlug[p.category] || {};
+  return `<a class="tile" href="/projects/${esc(p.slug)}/">
+    ${p.cover ? `<img src="${esc(p.cover)}" alt="" loading="lazy">` : ""}
+    <span class="t-arrow">VIEW →</span>
+    <div class="t-body"><h3>${esc(p.title)}</h3><div class="t-meta">${esc(p.client || cat.name || "")}</div></div>
   </a>`;
 }
 
@@ -144,73 +167,127 @@ function quotes(list) {
   </div></section>`;
 }
 
-const emptyWork = (catName) => `<div class="empty-work"><strong>New ${esc(catName ? catName.toLowerCase() : "work")} is being added.</strong> ${igUrl ? `See more recent work on <a href="${igUrl}" rel="noopener">Instagram</a>, or ask` : "Ask"} for samples when you <a href="/book/">send an inquiry</a>.</div>`;
+const emptyWork = (catName) => `<div class="empty-work"><strong>New ${esc(catName.toLowerCase())} work is being added.</strong> ${igUrl ? `See recent work on <a href="${igUrl}" rel="noopener">Instagram</a>, or ask` : "Ask"} for samples when you <a href="/book/">send an inquiry</a>.</div>`;
+
+const jsonScript = (id, obj) => `<script type="application/json" id="${id}">${JSON.stringify(obj).replace(/</g, "\\u003c")}</script>`;
 
 // ---------- camera ----------
+// An original mirrorless-camera illustration modeled on Austin's camera (no real brand on it).
+// 800 × 520 drawing area. Lens glass: centre (480, 322), radius 112. Shutter: top of the grip at (190, 124).
+// Top LCD: on the left shoulder between the shutter and the viewfinder hump.
 function cameraSVG() {
-  const ridges = Array.from({ length: 60 }, (_, i) => `<rect x="${i * 8}" y="0" width="3" height="26" fill="#2c2c2c"/>`).join("");
-  return `<svg class="camera-svg" viewBox="0 0 1000 660" aria-hidden="true" focusable="false">
+  const knurl = Array.from({ length: 14 }, (_, i) => `M${602 + i * 5}.5 178V190`).join("");
+  return `<svg class="body" viewBox="0 0 800 520" aria-hidden="true" focusable="false">
   <defs>
-    <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#232322"/><stop offset=".5" stop-color="#141413"/><stop offset="1" stop-color="#0a0a0a"/></linearGradient>
-    <linearGradient id="topG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#303030"/><stop offset="1" stop-color="#181818"/></linearGradient>
-    <linearGradient id="gripG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0b0b0b"/><stop offset=".4" stop-color="#1a1a19"/><stop offset="1" stop-color="#0d0d0d"/></linearGradient>
-    <pattern id="gripTex" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)"><rect width="9" height="3" fill="#000" opacity=".5"/></pattern>
-    <radialGradient id="ringG" cx=".5" cy=".5" r=".5"><stop offset=".7" stop-color="#151515"/><stop offset="1" stop-color="#050505"/></radialGradient>
-    <clipPath id="dialClip"><rect x="756" y="104" width="108" height="26" rx="8"/></clipPath>
-    <path id="ringText" d="M 515 380 m -166 0 a 166 166 0 1 1 332 0 a 166 166 0 1 1 -332 0"/>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a4f55"/><stop offset=".12" stop-color="#2b2e32"/><stop offset=".55" stop-color="#1a1c1f"/><stop offset="1" stop-color="#0a0b0c"/></linearGradient>
+    <linearGradient id="gripBulge" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".38"/><stop offset=".25" stop-color="#000" stop-opacity="0"/><stop offset=".55" stop-color="#d9e4ee" stop-opacity=".1"/><stop offset=".85" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".35"/></linearGradient>
+    <linearGradient id="rimLight" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".3" stop-color="#dfe9f3" stop-opacity=".55"/><stop offset=".7" stop-color="#dfe9f3" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".05"/><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".42"/></linearGradient>
+    <linearGradient id="humpSheen" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".45" stop-color="#cfe0ef" stop-opacity=".09"/><stop offset=".55" stop-color="#cfe0ef" stop-opacity=".09"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="cylDark" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#08090a"/><stop offset=".3" stop-color="#3b4148"/><stop offset=".55" stop-color="#1c2024"/><stop offset="1" stop-color="#060708"/></linearGradient>
+    <linearGradient id="topPlate" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3f45"/><stop offset="1" stop-color="#1a1d20"/></linearGradient>
+    <linearGradient id="lcdG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b7c1a8"/><stop offset="1" stop-color="#97a28a"/></linearGradient>
+    <linearGradient id="chromeLow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5d666e"/><stop offset=".18" stop-color="#c3cad0"/><stop offset=".45" stop-color="#eef1f3"/><stop offset=".7" stop-color="#9aa3ab"/><stop offset="1" stop-color="#3e454c"/></linearGradient>
+    <radialGradient id="btnBlack" cx=".4" cy=".35" r=".75"><stop offset="0" stop-color="#6b737b"/><stop offset=".5" stop-color="#2a2f34"/><stop offset="1" stop-color="#0b0c0e"/></radialGradient>
+    <radialGradient id="hole" cx=".5" cy=".55" r=".55"><stop offset="0" stop-color="#020203"/><stop offset=".75" stop-color="#0b0c0d"/><stop offset="1" stop-color="#2a2d31"/></radialGradient>
+    <radialGradient id="barrel" cx=".5" cy=".5" r=".5"><stop offset=".7" stop-color="#0c0d0f"/><stop offset=".93" stop-color="#202428"/><stop offset="1" stop-color="#08090a"/></radialGradient>
+    <radialGradient id="bezel" cx=".5" cy=".5" r=".5"><stop offset=".8" stop-color="#090b0d"/><stop offset=".95" stop-color="#15181b"/><stop offset="1" stop-color="#262b30"/></radialGradient>
+    <pattern id="ribs" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><rect width="9" height="9" fill="none"/><rect x="0" y="0" width="9" height="3.6" fill="#000" opacity=".7"/><rect x="0" y="3.6" width="9" height="1.2" fill="#c9d4de" opacity=".12"/></pattern>
+    <filter id="silicone" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="2" seed="11" result="t"/><feDiffuseLighting in="t" surfaceScale=".9" lighting-color="#ffffff" result="lit"><feDistantLight azimuth="250" elevation="62"/></feDiffuseLighting><feComposite in="lit" in2="SourceAlpha" operator="in" result="lc"/><feBlend in="lc" in2="SourceGraphic" mode="multiply"/></filter>
+    <filter id="soft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="9"/></filter>
+    <filter id="emboss"><feOffset dy="-.8"/><feGaussianBlur stdDeviation=".3" result="o"/><feFlood flood-color="#c9d4de" flood-opacity=".22"/><feComposite in2="o" operator="in" result="h"/><feMerge><feMergeNode in="h"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <clipPath id="bodyClip"><path d="M 140 146 Q 200 132 262 146 Q 286 152 290 190 H 392 Q 404 120 420 86 Q 427 74 444 74 H 516 Q 533 74 540 86 Q 556 120 568 190 H 670 Q 700 190 702 222 L 704 430 Q 704 466 668 466 H 150 Q 106 466 102 426 L 98 208 Q 98 152 140 146 Z"/></clipPath>
+    <clipPath id="gripClip"><path d="M 98 280 H 272 Q 286 380 268 466 H 98 Z"/></clipPath>
+    <path id="engrave" d="M 480 322 m -128 0 a 128 128 0 1 1 256 0 a 128 128 0 1 1 -256 0"/>
   </defs>
-  <ellipse cx="500" cy="626" rx="420" ry="18" fill="#000" opacity=".6"/>
-  <rect x="60" y="212" width="26" height="34" rx="7" fill="#1b1b1b"/>
-  <rect x="914" y="212" width="26" height="34" rx="7" fill="#1b1b1b"/>
-  <polygon points="92,166 122,98 878,98 908,166" fill="url(#topG)"/>
-  <polygon points="232,111 364,111 368,148 226,148" fill="#a9b29c" stroke="#070707" stroke-width="4"/>
-  <polygon points="232,111 364,111 365,117 231,117" fill="#fff" opacity=".12"/>
-  <g>
-    <rect x="756" y="104" width="108" height="26" rx="8" fill="#151515" stroke="#3a3a3a"/>
-    <g clip-path="url(#dialClip)"><g class="dial-ticks" transform="translate(756 104)">${ridges}</g></g>
-    <ellipse cx="810" cy="104" rx="54" ry="9" fill="#262626" stroke="#3a3a3a"/>
-  </g>
-  <rect x="80" y="160" width="840" height="400" rx="52" fill="url(#bodyG)" stroke="#2a2a29" stroke-width="2"/>
-  <rect x="64" y="166" width="176" height="410" rx="72" fill="url(#gripG)" stroke="#262625"/>
-  <rect x="64" y="166" width="176" height="410" rx="72" fill="url(#gripTex)"/>
-  <polygon points="372,166 408,52 592,52 628,166" fill="url(#bodyG)" stroke="#2a2a29" stroke-width="2"/>
-  <polygon points="408,52 420,34 580,34 592,52" fill="#2d2d2c"/>
-  <rect x="440" y="26" width="120" height="10" rx="2" fill="#3b3b3a"/>
-  <text x="500" y="134" text-anchor="middle" font-family="Big Shoulders Display, Arial Narrow, sans-serif" font-weight="800" font-size="19" letter-spacing="4" fill="#cfc9be">THE BIG PICTURE</text>
-  <g class="shutter-cap">
-    <ellipse cx="150" cy="120" rx="44" ry="17" fill="#0c0c0c" stroke="#3b3b3a" stroke-width="2"/>
-    <ellipse cx="150" cy="114" rx="31" ry="12" fill="#2f2f2e"/>
-    <ellipse cx="146" cy="110" rx="17" ry="5" fill="#4a4a48"/>
-  </g>
-  <circle class="af-lamp" cx="290" cy="222" r="11" fill="#2a2a29" stroke="#3a3a3a"/>
-  <circle cx="322" cy="240" r="4" fill="#050505"/><circle cx="340" cy="240" r="4" fill="#050505"/>
-  <circle cx="800" cy="300" r="15" fill="#161616" stroke="#353534" stroke-width="2"/>
-  <circle cx="515" cy="380" r="224" fill="#070707" stroke="#2e2e2d" stroke-width="3"/>
-  <circle cx="515" cy="380" r="206" fill="url(#ringG)"/>
-  <circle cx="515" cy="380" r="196" fill="none" stroke="#1f1f1e" stroke-width="16" stroke-dasharray="3 4"/>
-  <circle cx="515" cy="380" r="178" fill="#0a0a0a" stroke="#2a2a29" stroke-width="2"/>
-  <text font-family="Share Tech Mono, monospace" font-size="12" letter-spacing="4" fill="#6f6a63"><textPath href="#ringText" startOffset="2%">THE BIG PICTURE · FILM / PHOTOGRAPHY · ATLANTA · MR. WHOSHOTCHA ·</textPath></text>
-  <circle cx="515" cy="380" r="154" fill="#000" stroke="#1b1b1a" stroke-width="4"/>
-</svg>`;
-}
 
-function lensMarkup(c) {
-  if (c.lensVideo) return `<video src="${esc(c.lensVideo)}" ${c.lensPoster ? `poster="${esc(c.lensPoster)}"` : ""} muted loop playsinline autoplay preload="auto"></video>`;
-  if (c.lensImages && c.lensImages.length) return c.lensImages.map((src, i) => `<img src="${esc(src)}" alt=""${i === 0 ? ' class="on"' : ""}>`).join("");
-  return `<div class="lens-placeholder" style="--tint:${c.tint}"><div><span>${esc(c.name)}</span><small>CLIP COMING SOON</small></div></div>`;
+  <ellipse cx="402" cy="494" rx="330" ry="16" fill="#000" opacity=".75" filter="url(#soft)"/>
+
+  <!-- shutter button on top of the grip -->
+  <rect x="166" y="130" width="48" height="16" rx="5" fill="#0c0d0f"/>
+  <ellipse cx="190" cy="131" rx="24" ry="6" fill="#1d2023"/>
+  <ellipse cx="190" cy="130.5" rx="20" ry="5" fill="none" stroke="#e9a24c" stroke-width="2.6"/>
+  <g id="btnGroup">
+    <rect x="176" y="108" width="28" height="22" rx="5" fill="url(#cylDark)"/>
+    <ellipse cx="190" cy="108" rx="14" ry="4.6" fill="url(#btnBlack)" stroke="#9aa3ab" stroke-width="1.1"/>
+    <ellipse cx="186" cy="106.8" rx="6" ry="1.4" fill="#fff" opacity=".18"/>
+  </g>
+
+  <!-- raised top deck with the LCD, between the shutter and the viewfinder hump -->
+  <path d="M 284 196 L 286 160 Q 287 154 294 154 H 402 L 392 196 Z" fill="url(#skin)" filter="url(#silicone)"/>
+  <path d="M 288 156 Q 290 154.5 295 154.5 H 401" fill="none" stroke="#dfe9f3" stroke-width="1.4" opacity=".4"/>
+  <path d="M 299 182 L 302 160 H 354 L 355 182 Z" fill="#050607"/>
+  <path d="M 301.5 180 L 304 162 H 352.5 L 353 180 Z" fill="url(#lcdG)"/>
+  <path d="M 304 162 H 352.5 L 352.7 164.5 H 303.6 Z" fill="#fff" opacity=".22"/>
+
+  <!-- dial edge on the right shoulder -->
+  <rect x="598" y="176" width="70" height="16" rx="5" fill="url(#cylDark)"/>
+  <g stroke="#5a626a" stroke-width="1.2" opacity=".7"><path d="${knurl}"/></g>
+
+  <!-- body -->
+  <path d="M 140 146 Q 200 132 262 146 Q 286 152 290 190 H 392 Q 404 120 420 86 Q 427 74 444 74 H 516 Q 533 74 540 86 Q 556 120 568 190 H 670 Q 700 190 702 222 L 704 430 Q 704 466 668 466 H 150 Q 106 466 102 426 L 98 208 Q 98 152 140 146 Z" fill="url(#skin)" filter="url(#silicone)"/>
+  <g clip-path="url(#bodyClip)">
+    <rect x="98" y="140" width="200" height="330" fill="url(#gripBulge)"/>
+    <path d="M 292 196 Q 304 330 288 466" fill="none" stroke="#000" stroke-width="5" opacity=".6"/>
+    <path d="M 286 196 Q 297 330 282 466" fill="none" stroke="#c9d4de" stroke-width="1.4" opacity=".18"/>
+    <g clip-path="url(#gripClip)"><rect x="90" y="270" width="200" height="200" fill="url(#ribs)"/></g>
+    <path d="M 98 280 H 272 Q 286 380 268 466" fill="none" stroke="#000" stroke-width="1.6" opacity=".6"/>
+    <rect x="400" y="74" width="160" height="120" fill="url(#humpSheen)"/>
+    <rect x="0" y="0" width="800" height="520" fill="url(#shade)"/>
+  </g>
+  <path d="M 98 208 Q 98 152 140 146 Q 200 132 262 146 Q 286 152 290 190 H 392 Q 404 120 420 86 Q 427 74 444 74 H 516 Q 533 74 540 86 Q 556 120 568 190 H 670 Q 700 190 702 222" fill="none" stroke="url(#rimLight)" stroke-width="2.4"/>
+  <path d="M 140 146 Q 200 132 262 146 Q 286 152 290 190 H 392 Q 404 120 420 86 Q 427 74 444 74 H 516 Q 533 74 540 86 Q 556 120 568 190 H 670 Q 700 190 702 222 L 704 430 Q 704 466 668 466 H 150 Q 106 466 102 426 L 98 208 Q 98 152 140 146 Z" fill="none" stroke="#020203" stroke-width="1.6"/>
+
+  <!-- hot-shoe cover and name plate -->
+  <path d="M 446 74 L 450 60 Q 451 56 456 56 H 504 Q 509 56 510 60 L 514 74 Z" fill="#202327" filter="url(#silicone)"/>
+  <path d="M 452 59 H 508" stroke="#c9d4de" stroke-width="1" opacity=".35"/>
+  <rect x="418" y="96" width="124" height="27" rx="3" fill="#060607" stroke="#3a3f45" stroke-width="1"/>
+  <text x="480" y="115" text-anchor="middle" font-family="Bodoni Moda, Didot, Georgia, serif" font-weight="700" font-size="14" fill="#f2f2f2">The <tspan fill="#d0142f">Big</tspan> Picture</text>
+
+  <!-- front details -->
+  <circle cx="168" cy="206" r="20" fill="url(#hole)"/>
+  <circle cx="168" cy="206" r="20" fill="none" stroke="#c9d4de" stroke-width="1" opacity=".18"/>
+  <ellipse cx="162" cy="199" rx="6" ry="3.5" fill="#fff" opacity=".1"/>
+  <circle cx="318" cy="222" r="9" fill="url(#hole)"/>
+  <circle cx="348" cy="218" r="6" fill="url(#hole)"/>
+  <path d="M 90 196 l 10 -6 l 4 12 l -10 6 z" fill="url(#cylDark)"/>
+  <path d="M 712 214 l -10 -6 l -4 12 l 10 6 z" fill="url(#cylDark)"/>
+  <text x="688" y="232" text-anchor="end" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="17" font-weight="600" fill="#26292d" letter-spacing="1" filter="url(#emboss)">TBP</text>
+  <text x="688" y="252" text-anchor="end" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="17" font-weight="600" fill="#26292d" letter-spacing="1" filter="url(#emboss)">R</text>
+
+  <!-- lens -->
+  <circle cx="480" cy="328" r="192" fill="#000" opacity=".6" filter="url(#soft)"/>
+  <circle cx="480" cy="322" r="190" fill="url(#chromeLow)" opacity=".85"/>
+  <circle cx="480" cy="322" r="186" fill="#070809"/>
+  <circle cx="480" cy="322" r="183" fill="url(#barrel)"/>
+  <circle cx="480" cy="322" r="169" fill="none" stroke="#2b3036" stroke-width="20" stroke-dasharray="1.6 2.2"/>
+  <circle cx="480" cy="322" r="169" fill="none" stroke="#000" stroke-width="20" stroke-dasharray="1.6 2.2" stroke-dashoffset="1.6" opacity=".5"/>
+  <circle cx="480" cy="322" r="179.5" fill="none" stroke="#0a0b0c" stroke-width="2"/>
+  <path d="M 330 230 A 176 176 0 0 1 550 160" fill="none" stroke="#e8eef4" stroke-width="2" opacity=".28"/>
+  <circle cx="480" cy="322" r="156" fill="none" stroke="#9aa3ab" stroke-width="1.2" opacity=".8"/>
+  <circle cx="480" cy="322" r="150" fill="none" stroke="#25292e" stroke-width="9" stroke-dasharray="3 3"/>
+  <circle cx="480" cy="322" r="144" fill="none" stroke="#0a0b0c" stroke-width="1.4"/>
+  <circle cx="480" cy="322" r="142.5" fill="url(#bezel)"/>
+  <text font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="11" fill="#dfe4e8" letter-spacing="2.3"><textPath href="#engrave" startOffset="1%">THE <tspan fill="#d0142f">BIG</tspan> PICTURE LENS · 24–105mm 1:4 · ∅77 · STABILIZED · ATLANTA, GA · FILM / PHOTOGRAPHY ·</textPath></text>
+  <circle cx="480" cy="322" r="119" fill="url(#chromeLow)"/>
+  <circle cx="480" cy="322" r="116.5" fill="#030405"/>
+  <circle cx="480" cy="322" r="113.5" fill="none" stroke="#1b1f23" stroke-width="2"/>
+</svg>`;
 }
 
 // ---------- pages ----------
 function home() {
-  const first = categories[0];
-  const camData = categories.map(({ slug, name, dial, tagline, startingAt, tint, lensVideo, lensPoster, lensImages }) => ({ slug, name, dial, tagline, startingAt, tint, lensVideo, lensPoster, lensImages }));
-  const featured = projects.filter((p) => p.featured).slice(0, 3);
+  const live = categories.filter((c) => c.items.length);
+  const camData = live.map(({ slug, name, dial, what, startingAt, items }) => ({ slug, name, dial, what, startingAt, items }));
+  const first = live[0];
+  const pad = (n) => String(n).padStart(2, "0");
   const jsonLd = `<script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: site.name,
     description: site.positioning,
     url: site.domain,
+    image: site.domain + "/media/portrait-2.jpg",
     founder: { "@type": "Person", name: site.owner, alternateName: site.alias },
     address: { "@type": "PostalAddress", addressLocality: "Atlanta", addressRegion: "GA", addressCountry: "US" },
     areaServed: "Atlanta, GA",
@@ -220,137 +297,124 @@ function home() {
   })}</script>`;
 
   const body = `
-<section class="hero" style="--cam-tint:${first.tint}">
-  <div class="wrap">
-    <div class="hero-top">
-      <p class="eyebrow">Atlanta film &amp; photography</p>
-      <div class="cam-tools">
-        <button class="chip" id="sound-toggle" aria-pressed="false">Sound off</button>
-        <a class="chip" href="/work/">Skip to work</a>
-      </div>
-    </div>
-    <div class="camera-stage">
-      <div class="camera hinting" id="camera">
-        ${cameraSVG()}
-        <div class="lens-screen" id="lens" aria-live="polite">
-          <div class="lens-media" id="lens-media">${lensMarkup(first)}</div>
-          <div class="lens-glare"></div>
-          <div class="lens-iris"></div>
-        </div>
-        <div class="lcd" id="lcd" aria-hidden="true"><span id="lcd-mode">${esc(first.dial)}</span><span id="lcd-count">01/${String(categories.length).padStart(2, "0")}</span></div>
-        <button class="shutter" id="shutter" aria-label="Press the shutter to see the next category" aria-controls="lens"></button>
-        <div class="press-hint">Press the shutter</div>
-      </div>
-    </div>
-    <div class="cam-caption">
-      <div>
-        <p class="cam-price" id="cam-price">${esc(first.startingAt)}</p>
-        <h1 id="cam-name">${esc(first.name)}</h1>
-        <p class="cam-tag" id="cam-tag">${esc(first.tagline)}</p>
-      </div>
-      <div class="btn-row">
-        <a class="btn" id="cam-see" href="/work/${first.slug}/">See the work</a>
-        <a class="btn btn-primary" id="cam-book" href="/book/?service=${first.slug}">Book this</a>
-      </div>
-      <button class="big-shutter" id="big-shutter" aria-label="Next category"><i></i>Next category</button>
-      <div class="cam-dots" role="group" aria-label="Categories">
-        ${categories.map((c, i) => `<button class="cam-dot" data-i="${i}" aria-label="${esc(c.name)}"${i === 0 ? ' aria-current="true"' : ""}></button>`).join("")}
-        <span class="cam-count" id="cam-count">01 / ${String(categories.length).padStart(2, "0")}</span>
-      </div>
-    </div>
+<main id="main" class="stage">
+  <h1 class="visually-hidden">The Big Picture: Atlanta film and photography by Austin J. Best</h1>
+  <div class="camera" id="camera">
+    ${cameraSVG()}
+    <button class="glass" id="glass" type="button" aria-label="Open the ${esc(first.name)} gallery">
+      <div class="coat"></div>
+      <div class="arc"></div>
+      <svg class="iris" id="iris" viewBox="-1 -1 2 2" aria-hidden="true">
+        <defs>
+          <linearGradient id="bladeG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a2028"/><stop offset=".55" stop-color="#0b0f13"/><stop offset="1" stop-color="#050709"/></linearGradient>
+        </defs>
+        <g id="blades"></g>
+      </svg>
+    </button>
+    <div class="lcd" id="lcd" aria-hidden="true"><span id="lcdMode">${esc(first.dial)}</span><span id="lcdCount">${pad(1)}</span></div>
+    <span class="hint-ring" aria-hidden="true"></span>
+    <button class="shutter" id="shutter" type="button" aria-label="Shutter: show the next category"></button>
+    <span class="callout" aria-hidden="true">Shutter = next</span>
   </div>
-  <script type="application/json" id="camera-data">${JSON.stringify(camData).replace(/</g, "\\u003c")}</script>
-</section>
-
-<section class="statement rule">
-  <div class="wrap">
-    <p>Cinematic work for <em>artists</em>, <em>brands</em> and <em>couples</em>. 14 years behind the lens in Atlanta.</p>
-    <a class="btn btn-primary" href="/book/">Book your project</a>
+</main>
+<div class="home-foot">
+  <div class="now" aria-live="polite">
+    <span class="count" id="count">${pad(1)} / ${pad(live.length)}</span>
+    <h2 class="name" id="catName">${esc(first.name)}</h2>
+    <span class="what" id="catWhat">${esc(first.what)} · ${esc(first.startingAt)}</span>
   </div>
-</section>
-
-${featured.length ? `<section class="rule"><div class="wrap">
-  <div class="section-head"><div><p class="eyebrow">Featured</p><h2>Recent work</h2></div><a class="btn" href="/work/">All work</a></div>
-  <div class="grid grid-3">${featured.map(projectTile).join("")}</div>
-</div></section>` : ""}
-
-<section class="rule">
-  <div class="wrap">
-    <div class="section-head"><div><p class="eyebrow">What I shoot</p><h2>Pick your shot</h2></div><a class="btn" href="/services/">Services &amp; investment</a></div>
-    <div class="grid grid-3">${categories.map(categoryTile).join("")}</div>
+  <div class="dial" id="dial" role="group" aria-label="Categories">
+    ${live.map((c, i) => `<button type="button" data-i="${i}" aria-current="${i === 0}">${esc(c.short)}</button>`).join("")}
   </div>
-</section>
-
-${quotes(testimonials.slice(0, 3))}
-
-<section class="rule">
-  <div class="wrap">
-    <p class="eyebrow">How booking works</p>
-    <h2>Three steps to your date</h2>
-    <div class="steps" style="margin-top:36px">
-      <div class="step"><h3>Inquire</h3><p>Tell me about your project, date and budget. It takes two minutes.</p></div>
-      <div class="step"><h3>Quick call</h3><p>We talk through your vision for 15 minutes, then you get a proposal within 24 hours.</p></div>
-      <div class="step"><h3>Lock your date</h3><p>Sign the contract and pay a 50% deposit online. Your date is booked.</p></div>
+  <div class="how">Press the <strong>shutter button</strong> to change category · Tap the <strong>lens</strong> to step inside</div>
+</div>
+<div class="flash" id="flash"></div>
+<section class="lensgal" id="lensgal" aria-label="Gallery" aria-hidden="true">
+  <div class="gal-head">
+    <div><div class="gal-meta" id="gMeta"></div><h2 id="gTitle"></h2></div>
+    <div class="gal-actions">
+      <a class="btn" id="gPage" href="/work/">Full page</a>
+      <a class="btn btn-outline" id="gBook" href="/book/">Book this</a>
+      <button class="btn" id="gClose" type="button">Back to the camera</button>
     </div>
   </div>
+  <div class="media-grid" id="grid"></div>
 </section>
-${ctaBand()}`;
+${viewerMarkup}`;
   write("/", layout({
     path: "/",
     title: "The Big Picture | Atlanta Film & Photography",
     description: "Atlanta film and photography studio led by Austin J. Best (Mr. WhoShotCha). Music videos, commercials, weddings, portraits, headshots and events.",
-    body, jsonLd,
-    scripts: `<script src="/assets/js/camera.js" defer></script>`,
+    body, jsonLd, home: true,
+    data: jsonScript("camera-data", camData),
+    scripts: `<script src="/assets/js/gallery.js" defer></script><script src="/assets/js/camera.js" defer></script>`,
   }));
 }
 
 function workIndex() {
   const body = `
 <section class="page-hero"><div class="wrap">
-  <p class="eyebrow">Portfolio</p><h1>The work</h1>
-  <p class="lead">Selected projects across film and photography.</p>
+  <p class="eyebrow">Portfolio</p><h1>The <em>work</em></h1>
+  <p class="lead">Film and photography by The Big Picture. Pick a category.</p>
 </div></section>
 <section style="padding-top:0"><div class="wrap">
-  <nav class="filters" aria-label="Filter by category">
+  <nav class="filters" aria-label="Categories">
     <a class="chip" href="/work/" aria-current="page">All</a>
-    ${categories.map((c) => `<a class="chip" href="/work/${c.slug}/">${esc(c.name)}</a>`).join("")}
+    ${categories.map((c) => `<a class="chip" href="/work/${c.slug}/">${esc(c.short)}</a>`).join("")}
   </nav>
-  ${projects.length ? `<div class="grid grid-3">${projects.map(projectTile).join("")}</div>` : `<div class="grid grid-3">${categories.map(categoryTile).join("")}</div>`}
+  <div class="grid-3">${categories.map(categoryTile).join("")}</div>
+  ${projects.length ? `<h2 style="margin-top:64px">Projects</h2><div class="grid-3">${projects.map(projectTile).join("")}</div>` : ""}
 </div></section>
 ${ctaBand()}`;
-  write("/work/", layout({ path: "/work/", title: "Work", description: "Portfolio of The Big Picture: music videos, commercials, weddings, portraits, headshots, events and short films in Atlanta.", body, scripts: `<script src="/assets/js/hover.js" defer></script>` }));
+  write("/work/", layout({ path: "/work/", title: "Work", description: "Portfolio of The Big Picture: portraits, weddings, travel, events, films, music videos and commercials in Atlanta.", body }));
+}
+
+function mediaTiles(items, label) {
+  return items.map((it, i) => `<button class="tile-m${it.tall ? "" : " wide"}" type="button" data-i="${i}" aria-label="View ${esc(label)} ${i + 1}">
+    ${it.video
+      ? `<video src="${esc(it.src)}" poster="${esc(it.poster || "")}" muted loop playsinline autoplay preload="metadata" style="object-position:${esc(it.pos || "50% 50%")}"></video><span class="tag">Play with sound</span>`
+      : `<img src="${esc(it.src)}" alt="${esc(it.alt || "")}" loading="lazy" style="object-position:${esc(it.pos || "50% 50%")}">`}
+  </button>`).join("");
 }
 
 function categoryPage(c) {
   const list = projects.filter((p) => p.category === c.slug);
   const qs = testimonials.filter((t) => t.category === c.slug).slice(0, 1);
-  const svc = services.filter((s) => s.category === c.slug);
+  const svc = services.find((s) => s.category === c.slug);
   const body = `
-<section class="page-hero cat-hero" style="--tint:${c.tint}"><div class="wrap">
+<section class="page-hero"><div class="wrap">
   <p class="eyebrow">${esc(c.name)}</p>
   <h1>${esc(c.headline)}</h1>
   <p class="lead">${esc(c.intro)}</p>
   <span class="price-tag">${esc(c.startingAt)}</span>
-  <div class="btn-row"><a class="btn btn-primary" href="/book/?service=${c.slug}">Book ${esc(c.name.toLowerCase())}</a><a class="btn" href="/services/#${svc[0] ? svc[0].id : ""}">See packages</a></div>
+  <div class="btn-row"><a class="btn btn-primary" href="/book/?service=${c.slug}">Book ${esc(c.short.toLowerCase())}</a>${svc ? `<a class="btn" href="/services/#${svc.id}">See packages</a>` : ""}</div>
 </div></section>
 <section style="padding-top:0"><div class="wrap">
-  <nav class="filters" aria-label="Filter by category">
+  <nav class="filters" aria-label="Categories">
     <a class="chip" href="/work/">All</a>
-    ${categories.map((x) => `<a class="chip" href="/work/${x.slug}/"${x.slug === c.slug ? ' aria-current="page"' : ""}>${esc(x.name)}</a>`).join("")}
+    ${categories.map((x) => `<a class="chip" href="/work/${x.slug}/"${x.slug === c.slug ? ' aria-current="page"' : ""}>${esc(x.short)}</a>`).join("")}
   </nav>
-  ${list.length ? `<div class="grid grid-3">${list.map(projectTile).join("")}</div>` : emptyWork(c.name)}
+  ${c.items.length ? `<div class="media-grid${c.items.length === 1 ? " solo" : ""}" data-gallery="cat-items">${mediaTiles(c.items, c.name)}</div>` : emptyWork(c.name)}
+  ${list.length ? `<div class="grid-3" style="margin-top:24px">${list.map(projectTile).join("")}</div>` : ""}
 </div></section>
 <section class="rule"><div class="wrap">
-  <p class="eyebrow">What you get</p><h2>Every ${esc(c.name.toLowerCase())} booking includes</h2>
-  <ul class="includes" style="margin-top:28px">${c.includes.map((i) => `<li>${esc(i)}</li>`).join("")}</ul>
+  <p class="eyebrow">What you get</p><h2>Every booking <em>includes</em></h2>
+  <ul class="includes" style="margin-top:26px">${c.includes.map((i) => `<li>${esc(i)}</li>`).join("")}</ul>
 </div></section>
 ${quotes(qs)}
 <section class="rule"><div class="wrap faq">
   <p class="eyebrow">Questions</p><h2>Good to know</h2>
   ${faq.slice(0, 4).map((f) => `<details><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join("")}
 </div></section>
-${ctaBand(`Let's make your ${c.name.toLowerCase()}.`)}`;
-  write(`/work/${c.slug}/`, layout({ path: `/work/${c.slug}/`, title: `${c.headline}`, description: `${c.intro} ${c.startingAt}. Book The Big Picture in Atlanta.`, body, scripts: `<script src="/assets/js/hover.js" defer></script>` }));
+${ctaBand(`Let's make it happen.`)}
+${c.items.length ? viewerMarkup : ""}`;
+  write(`/work/${c.slug}/`, layout({
+    path: `/work/${c.slug}/`, title: c.headline,
+    description: `${c.intro} ${c.startingAt}. Book The Big Picture in Atlanta.`,
+    body, ogImage: coverOf(c),
+    data: c.items.length ? jsonScript("cat-items", c.items) : "",
+    scripts: c.items.length ? `<script src="/assets/js/gallery.js" defer></script>` : "",
+  }));
 }
 
 function projectPage(p) {
@@ -362,8 +426,7 @@ function projectPage(p) {
   ${p.brief ? `<p class="lead">${esc(p.brief)}</p>` : ""}
 </div></section>
 <section style="padding-top:0"><div class="wrap">
-  ${p.videoUrl ? `<div class="video-frame"><iframe src="${esc(p.videoUrl)}" title="${esc(p.title)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>` : p.cover ? `<img src="${esc(p.cover)}" alt="${esc(p.title)}" style="border-radius:14px">` : ""}
-  ${p.gallery && p.gallery.length ? `<div class="gallery">${p.gallery.map((g) => `<img src="${esc(g)}" alt="${esc(p.title)}" loading="lazy">`).join("")}</div>` : ""}
+  ${p.videoUrl ? `<div class="video-frame"><iframe src="${esc(p.videoUrl)}" title="${esc(p.title)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>` : p.cover ? `<img src="${esc(p.cover)}" alt="${esc(p.title)}" style="border-radius:10px">` : ""}
   <dl class="meta-list">
     ${p.client ? `<div><dt>Client</dt><dd>${esc(p.client)}</dd></div>` : ""}
     ${p.date ? `<div><dt>Date</dt><dd>${esc(p.date)}</dd></div>` : ""}
@@ -444,7 +507,7 @@ function bookPage() {
   const opts = categories.map((c) => `<option value="${c.slug}">${esc(c.name)}</option>`).join("") + `<option value="retainer">Monthly content retainer</option><option value="other">Something else</option>`;
   const body = `
 <section class="page-hero"><div class="wrap">
-  <p class="eyebrow">Book</p><h1>Book your project</h1>
+  <p class="eyebrow">Book</p><h1>Book a shoot</h1>
   <p class="lead">Tell me what you're planning. I reply ${esc(site.responseTime)}.</p>
 </div></section>
 <section style="padding-top:0"><div class="wrap book-grid">

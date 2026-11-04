@@ -24,7 +24,18 @@ Live at https://thebigpicturevisuals.com
 
 ## Common updates
 
-**Add a project** — add an entry to `content/projects.json`:
+**Add work to a category** — drop the file in `public/media/` and add an item to that category's `items` in `content/categories.json`:
+
+```json
+{ "src": "/media/wedding-2.jpg", "pos": "50% 35%", "tall": true, "alt": "Bride and groom at sunset" }
+```
+
+- `pos` is the focus point (left% top%) so faces land in the middle of the round lens.
+- `tall: true` for portrait-orientation photos.
+- Videos: `{ "src": "/media/clip.mp4", "poster": "/media/clip.jpg", "video": true }`. Keep lens clips short, silent and under ~3 MB.
+- A category only appears in the home page camera once it has at least one item. Order in the file = order of the shutter cycle.
+
+**Add a project** (a single video with its own page) — add an entry to `content/projects.json`:
 
 ```json
 {
@@ -36,17 +47,12 @@ Live at https://thebigpicturevisuals.com
   "role": "Director, DP, Editor",
   "brief": "Two sentences about the idea.",
   "result": "One line about the result.",
-  "cover": "/media/projects/song-title.webp",
-  "previewVideo": "/media/projects/song-title-preview.mp4",
+  "cover": "/media/song-title.jpg",
   "videoUrl": "https://player.vimeo.com/video/123456789",
-  "gallery": [],
-  "credits": [],
-  "featured": true
+  "credits": []
 }
 ```
 
 **Change a price** — edit `startingAt` in `content/categories.json` and the matching entry in `content/services.json`.
 
-**Add a lens clip** — export a graded 5–8 second silent loop (MP4, under 2 MB, square crop works best), save it in `public/media/lens/`, and set `lensVideo` (and a `lensPoster` still) on that category. For photo categories, list 3–4 images in `lensImages` instead.
-
-**Reorder the camera** — reorder the entries in `content/categories.json`.
+**Brand rule** — "Big" in The Big Picture is always crimson. The build does this automatically for any visible text.

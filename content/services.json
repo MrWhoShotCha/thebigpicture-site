@@ -6,9 +6,18 @@
     "startingAt": "Starting at $800",
     "blurb": "Videos under 2 minutes for businesses and brands.",
     "tiers": [
-      { "name": "Basic", "includes": "One location, short edit" },
-      { "name": "Premium", "includes": "Concept, multiple setups, polished edit" },
-      { "name": "Commercial", "includes": "Larger brands, full production" }
+      {
+        "name": "Basic",
+        "includes": "One location, short edit"
+      },
+      {
+        "name": "Premium",
+        "includes": "Concept, multiple setups, polished edit"
+      },
+      {
+        "name": "Commercial",
+        "includes": "Larger brands, full production"
+      }
     ]
   },
   {
@@ -18,9 +27,18 @@
     "startingAt": "From $1,200 / month",
     "blurb": "A steady stream of video and photo content for local businesses, every month.",
     "tiers": [
-      { "name": "Starter", "includes": "2 short videos and 1 mini photo session a month" },
-      { "name": "Growth", "includes": "4 short videos and 1 photo session a month" },
-      { "name": "Premium", "includes": "6 short videos, 2 photo sessions and a monthly content calendar" }
+      {
+        "name": "Starter",
+        "includes": "2 short videos and 1 mini photo session a month"
+      },
+      {
+        "name": "Growth",
+        "includes": "4 short videos and 1 photo session a month"
+      },
+      {
+        "name": "Premium",
+        "includes": "6 short videos, 2 photo sessions and a monthly content calendar"
+      }
     ]
   },
   {
@@ -30,9 +48,18 @@
     "startingAt": "Starting at $1,200",
     "blurb": "Performance and concept videos for artists and labels.",
     "tiers": [
-      { "name": "Basic", "includes": "One location, one day, simple edit" },
-      { "name": "Standard", "includes": "Concept, 1-2 locations, edit, color grade" },
-      { "name": "Premier", "includes": "Full concept, crew, multiple locations, extra deliverables" }
+      {
+        "name": "Basic",
+        "includes": "One location, one day, simple edit"
+      },
+      {
+        "name": "Standard",
+        "includes": "Concept, 1-2 locations, edit, color grade"
+      },
+      {
+        "name": "Premier",
+        "includes": "Full concept, crew, multiple locations, extra deliverables"
+      }
     ]
   },
   {
@@ -42,31 +69,52 @@
     "startingAt": "Video from $1,500 · Photo from $1,200 · Bundles from $2,400",
     "blurb": "Film, photo, or both. Bundles include a second shooter.",
     "tiers": [
-      { "name": "Half Day", "includes": "Wedding party and ceremony. Video: 5-minute highlight film. Photo: about 200 lightly edited photos, 15 fully retouched" },
-      { "name": "Full Day", "includes": "Pre-wedding, ceremony and reception. Video: 5-minute highlight film and full ceremony edit. Photo: about 400 lightly edited photos, 25 retouched, online gallery" },
-      { "name": "Premium", "includes": "Full day with a second shooter. Video: 8-10 minute film, 60-second social teaser, speeches edit. Photo: engagement session, 40 retouched" }
+      {
+        "name": "Half Day",
+        "includes": "Wedding party and ceremony. Video: 5-minute highlight film. Photo: about 200 lightly edited photos, 15 fully retouched"
+      },
+      {
+        "name": "Full Day",
+        "includes": "Pre-wedding, ceremony and reception. Video: 5-minute highlight film and full ceremony edit. Photo: about 400 lightly edited photos, 25 retouched, online gallery"
+      },
+      {
+        "name": "Premium",
+        "includes": "Full day with a second shooter. Video: 8-10 minute film, 60-second social teaser, speeches edit. Photo: engagement session, 40 retouched"
+      }
     ]
   },
   {
     "id": "portraits",
     "name": "Portraits",
-    "category": "portraits",
+    "category": "portraits-headshots",
     "startingAt": "Starting at $600",
     "blurb": "About a 2-hour session with 6 fully edited images.",
     "tiers": [
-      { "name": "Standard", "includes": "About 2 hours, 6 edited images" },
-      { "name": "Premium", "includes": "Extended session and more edited images" }
+      {
+        "name": "Standard",
+        "includes": "About 2 hours, 6 edited images"
+      },
+      {
+        "name": "Premium",
+        "includes": "Extended session and more edited images"
+      }
     ]
   },
   {
     "id": "headshots",
     "name": "Business Headshots",
-    "category": "headshots",
+    "category": "portraits-headshots",
     "startingAt": "From $250 per person",
     "blurb": "Per person, or a team day rate for businesses.",
     "tiers": [
-      { "name": "Individual", "includes": "Per-person session with retouched finals" },
-      { "name": "Team day", "includes": "Your whole team in one day, one consistent look" }
+      {
+        "name": "Individual",
+        "includes": "Per-person session with retouched finals"
+      },
+      {
+        "name": "Team day",
+        "includes": "Your whole team in one day, one consistent look"
+      }
     ]
   },
   {
@@ -80,7 +128,7 @@
   {
     "id": "films",
     "name": "Short Films & Full Productions",
-    "category": "short-films-creative",
+    "category": "films",
     "startingAt": "Request a quote",
     "blurb": "Every production is quoted to fit the project.",
     "tiers": []
