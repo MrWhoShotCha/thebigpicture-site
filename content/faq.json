@@ -1,0 +1,12 @@
+[
+  { "q": "How do I lock in my date?", "a": "Your date is booked once your contract is signed and your 50% deposit is paid. Until then, the date stays open for other clients." },
+  { "q": "When is the rest of the payment due?", "a": "The remaining balance is due before final delivery." },
+  { "q": "Do you travel?", "a": "Yes. I'm based in Atlanta and travel for bookings. Travel, lodging and meals are billed on top of your package, plus a travel day rate for time spent in transit." },
+  { "q": "How long until I get my photos or video?", "a": "Turnaround depends on the package and is written into your proposal. Rush delivery is available as an add-on." },
+  { "q": "Can I get the raw footage?", "a": "Raw footage is available as an add-on. Most clients don't need it, because you get finished, graded files." },
+  { "q": "What about revisions?", "a": "Your package includes a set number of revisions, listed in your proposal. Extra revision rounds can be added." },
+  { "q": "Can I use the video in paid ads?", "a": "Usage rights for paid advertising and broadcast are priced separately. Tell me where the content will run and I'll include the right license in your quote." },
+  { "q": "Do you work alone or with a crew?", "a": "I shoot most projects myself and bring in a trusted crew when a project calls for it, like concept music videos, commercials and wedding bundles." },
+  { "q": "What if I need to reschedule?", "a": "Reach out as soon as you know. Rescheduling and cancellation terms are spelled out in your contract." },
+  { "q": "How should I prepare for my shoot?", "a": "After you book, you'll get a short questionnaire covering locations, wardrobe, music and the schedule, plus a reminder 48 hours before." }
+]

@@ -1,0 +1,18 @@
+{
+  "name": "The Big Picture",
+  "legalName": "The Big Picture Film & Photography",
+  "owner": "Austin J. Best",
+  "alias": "Mr. WhoShotCha",
+  "domain": "https://thebigpicturevisuals.com",
+  "city": "Atlanta, GA",
+  "travelNote": "Based in Atlanta. Available to travel (travel and lodging billed separately).",
+  "positioning": "The Big Picture is an Atlanta film and photography studio led by Austin J. Best, aka Mr. WhoShotCha. Cinematic work for artists, brands and couples, with 14 years behind the lens.",
+  "email": "",
+  "phone": "",
+  "instagram": "",
+  "formEndpoint": "",
+  "callBookingUrl": "",
+  "callMinimum": 800,
+  "responseTime": "within 24 hours",
+  "_todo": "Fill in email, phone and instagram (handle without @). formEndpoint = where the booking form sends (CRM or Formspree URL). callBookingUrl = your 15-minute call scheduling link."
+}
