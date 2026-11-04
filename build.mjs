@@ -484,18 +484,19 @@ function aboutPage() {
   <div>
     <p class="eyebrow">About</p>
     <h1>Austin J. Best, aka Mr. WhoShotCha</h1>
-    <p class="lead">I've spent 14 years behind the lens in Atlanta, filming music videos, commercials and weddings, and photographing the people and moments that matter.</p>
+    <p class="lead">I'm from Savannah, GA, and based in Atlanta. I've spent 14 years behind the lens, filming music videos, commercials and weddings, and photographing the people and moments that matter.</p>
     <p class="muted">The Big Picture is my studio. I shoot most projects myself, so you work directly with the person behind the camera. When a project needs more, like a concept music video, a commercial or a wedding with film and photo, I bring in a trusted crew.</p>
     <p class="muted">I shoot film on a Canon C70 cinema camera and photos on a Canon EOS R, and every project is edited and color graded by hand.</p>
     <ul class="facts">
       <li><b>14</b><span>years behind the lens</span></li>
+      <li><b>SAV</b><span>where I'm from</span></li>
       <li><b>ATL</b><span>based, available to travel</span></li>
     </ul>
     <div class="btn-row"><a class="btn btn-primary" href="/book/">Work with me</a><a class="btn" href="/work/">See the work</a></div>
   </div>
 </div></section>
 ${ctaBand()}`;
-  write("/about/", layout({ path: "/about/", title: "About Austin J. Best (Mr. WhoShotCha)", description: "Meet Austin J. Best, aka Mr. WhoShotCha: 14 years filming and photographing in Atlanta, and the founder of The Big Picture.", body, ogImage: "/media/austin-best.jpg" }));
+  write("/about/", layout({ path: "/about/", title: "About Austin J. Best (Mr. WhoShotCha)", description: "Meet Austin J. Best, aka Mr. WhoShotCha: from Savannah, based in Atlanta, 14 years behind the lens and the founder of The Big Picture.", body, ogImage: "/media/austin-best.jpg" }));
 }
 
 function faqPage() {
