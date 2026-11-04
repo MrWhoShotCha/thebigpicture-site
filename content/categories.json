@@ -9,13 +9,133 @@
     "intro": "Creative portraits for artists and creatives, and clean, confident headshots for professionals and whole teams.",
     "startingAt": "Portraits from $600 · Headshots from $250",
     "service": "portraits",
-    "includes": ["About a 2-hour portrait session", "6 fully edited images", "Team day rates for headshots", "Help picking the location"],
+    "includes": [
+      "About a 2-hour portrait session",
+      "6 fully edited images",
+      "Team day rates for headshots",
+      "Help picking the location"
+    ],
     "items": [
-      { "src": "/media/portrait-1.jpg", "pos": "50% 36%", "tall": true, "alt": "Laughing portrait of a woman in black lace in front of colorful fabrics" },
-      { "src": "/media/portrait-2.jpg", "pos": "48% 32%", "tall": true, "alt": "Smiling portrait of a woman in front of colorful fabrics" },
-      { "src": "/media/portrait-3.jpg", "pos": "40% 38%", "tall": true, "alt": "Woman looking down and smiling, soft natural light" },
-      { "src": "/media/portrait-4.jpg", "pos": "47% 30%", "tall": true, "alt": "Woman posing on a wooden pier at sunrise" },
-      { "src": "/media/portrait-5.jpg", "pos": "47% 30%", "tall": true, "alt": "Woman posing with hands on hips on a pier at dawn" }
+      {
+        "src": "/media/headshot-01.jpg",
+        "pos": "50% 30%",
+        "alt": "Headshot of a bearded man in an orange sweater against a deep red backdrop",
+        "tall": true
+      },
+      {
+        "src": "/media/headshot-02.jpg",
+        "pos": "50% 22%",
+        "alt": "Smiling woman in a pink blazer, studio headshot",
+        "tall": true
+      },
+      {
+        "src": "/media/headshot-03.jpg",
+        "pos": "50% 22%",
+        "alt": "Man in a red cap and denim shirt, studio portrait",
+        "tall": true
+      },
+      {
+        "src": "/media/headshot-04.jpg",
+        "pos": "50% 25%",
+        "alt": "Businesswoman in a tan blazer against a teal backdrop",
+        "tall": true
+      },
+      {
+        "src": "/media/headshot-05.jpg",
+        "pos": "50% 28%",
+        "alt": "Man with locs in a black suit, studio headshot",
+        "tall": true
+      },
+      {
+        "src": "/media/headshot-06.jpg",
+        "pos": "50% 22%",
+        "alt": "Entrepreneur with long locs holding a candle, brand portrait",
+        "tall": true
+      },
+      {
+        "src": "/media/headshot-07.jpg",
+        "pos": "50% 25%",
+        "alt": "Bearded man in a quilted vest, studio headshot",
+        "tall": true
+      },
+      {
+        "src": "/media/headshot-08.jpg",
+        "pos": "50% 25%",
+        "alt": "Woman in a brown off-shoulder top with her hand on her chin",
+        "tall": true
+      },
+      {
+        "src": "/media/headshot-09.jpg",
+        "pos": "50% 25%",
+        "alt": "Woman in a champagne satin blouse, studio portrait",
+        "tall": true
+      },
+      {
+        "src": "/media/portrait-2.jpg",
+        "pos": "48% 32%",
+        "tall": true,
+        "alt": "Smiling portrait of a woman in front of colorful fabrics"
+      },
+      {
+        "src": "/media/portrait-4.jpg",
+        "pos": "47% 30%",
+        "tall": true,
+        "alt": "Woman posing on a wooden pier at sunrise"
+      }
+    ]
+  },
+  {
+    "slug": "food-beverage",
+    "name": "Food & Beverage",
+    "short": "Food",
+    "dial": "FOOD",
+    "what": "Restaurants, bars & chefs",
+    "headline": "Food and beverage photography for Atlanta restaurants and bars",
+    "intro": "Dishes, drinks and the people behind them, shot for your menu, website, ads and social.",
+    "startingAt": "Promos from $800 · Retainers from $1,200/mo",
+    "service": "promos",
+    "includes": [
+      "Menu and dish photography",
+      "Bartender and chef portraits",
+      "Short videos for social and ads",
+      "Monthly content retainers"
+    ],
+    "items": [
+      {
+        "src": "/media/food-01.jpg",
+        "pos": "50% 35%",
+        "alt": "Bartender pouring a green martini into a sugar-rimmed glass",
+        "tall": true
+      },
+      {
+        "src": "/media/food-02.jpg",
+        "pos": "45% 30%",
+        "alt": "Chef seasoning a steak at the counter",
+        "tall": true
+      },
+      {
+        "src": "/media/food-03.jpg",
+        "pos": "50% 50%",
+        "alt": "Plated lamb chop over a crisp flatbread with a flower garnish"
+      },
+      {
+        "src": "/media/food-04.jpg",
+        "pos": "40% 30%",
+        "alt": "Black-and-white portrait of a chef at work",
+        "tall": true
+      },
+      {
+        "src": "/media/food-05.jpg",
+        "pos": "50% 40%",
+        "alt": "Overhead shot of a chef plating food on a granite counter",
+        "tall": true
+      },
+      {
+        "src": "/media/food-06.jpg",
+        "pos": "55% 30%",
+        "alt": "Bartender raising a cocktail shaker behind the bar",
+        "tall": true
+      }
     ]
   },
   {
@@ -28,26 +148,47 @@
     "intro": "Half-day or full-day coverage in film, photo or both, with highlight films and galleries you'll want to watch again.",
     "startingAt": "Starting at $1,200",
     "service": "weddings",
-    "includes": ["Half-day, full-day or premium coverage", "5-minute highlight film", "Hundreds of edited photos", "Video + photo bundles"],
+    "includes": [
+      "Half-day, full-day or premium coverage",
+      "5-minute highlight film",
+      "Hundreds of edited photos",
+      "Video + photo bundles"
+    ],
     "items": [
-      { "src": "/media/couple-1.jpg", "pos": "45% 38%", "alt": "Couple kissing on a sunny street lined with palm trees" }
-    ]
-  },
-  {
-    "slug": "travel-street",
-    "name": "Travel & Street",
-    "short": "Travel",
-    "dial": "TRVL",
-    "what": "Travel & street, canvas prints",
-    "headline": "Travel and street photography",
-    "intro": "Light, water and the moments in between, available as canvas prints.",
-    "startingAt": "Ask about canvas prints",
-    "service": "",
-    "includes": ["Canvas prints in several sizes", "Travel shoots on request", "Street and documentary style", "Graded with The Big Picture look"],
-    "items": [
-      { "src": "/media/travel-1.jpg", "pos": "50% 42%", "tall": true, "alt": "Golden sunset over the sea with a sailboat and silhouettes on the beach" },
-      { "src": "/media/travel-2.jpg", "pos": "52% 40%", "alt": "Man in a cap sitting on a pier looking out to sea at dusk" },
-      { "src": "/media/travel-3.jpg", "pos": "50% 42%", "tall": true, "alt": "Blue-toned sunset over the sea with a sailboat" }
+      {
+        "src": "/media/wedding-01.jpg",
+        "pos": "50% 35%",
+        "alt": "Black-and-white close-up of a couple kissing",
+        "tall": true
+      },
+      {
+        "src": "/media/wedding-02.jpg",
+        "pos": "50% 40%",
+        "alt": "Black-and-white photo of a bride and groom embracing on a deck",
+        "tall": true
+      },
+      {
+        "src": "/media/wedding-03.jpg",
+        "pos": "50% 55%",
+        "alt": "Wedding rings surrounded by glowing lights"
+      },
+      {
+        "src": "/media/wedding-04.jpg",
+        "pos": "50% 25%",
+        "alt": "Groom in a grey suit and pink vest",
+        "tall": true
+      },
+      {
+        "src": "/media/couple-1.jpg",
+        "pos": "45% 38%",
+        "alt": "Couple kissing on a sunny street lined with palm trees"
+      },
+      {
+        "src": "/media/wedding-05.jpg",
+        "pos": "50% 50%",
+        "alt": "Black-and-white photo of studded wedding heels",
+        "tall": true
+      }
     ]
   },
   {
@@ -60,9 +201,209 @@
     "intro": "Launches, parties, ceremonies and corporate events covered in photo, video or both.",
     "startingAt": "Request a quote",
     "service": "events",
-    "includes": ["Photo, video or both", "Recap videos", "Group and candid coverage", "Online delivery"],
+    "includes": [
+      "Photo, video or both",
+      "Recap videos",
+      "Group and candid coverage",
+      "Online delivery"
+    ],
     "items": [
-      { "src": "/media/event-1.jpg", "pos": "50% 48%", "alt": "Group of men in suits holding maroon bags, with a man in a red jacket in front" }
+      {
+        "src": "/media/event-02.jpg",
+        "pos": "50% 35%",
+        "alt": "Rapper performing under purple and orange stage lights",
+        "tall": true
+      },
+      {
+        "src": "/media/event-03.jpg",
+        "pos": "50% 35%",
+        "alt": "Three friends posing together at a nightclub",
+        "tall": true
+      },
+      {
+        "src": "/media/event-04.jpg",
+        "pos": "50% 35%",
+        "alt": "Guitarist playing under blue stage lights",
+        "tall": true
+      },
+      {
+        "src": "/media/event-05.jpg",
+        "pos": "50% 40%",
+        "alt": "Performer on stage holding a microphone",
+        "tall": true
+      },
+      {
+        "src": "/media/event-1.jpg",
+        "pos": "50% 48%",
+        "alt": "Group of men in suits holding maroon bags, with a man in a red jacket in front"
+      }
+    ]
+  },
+  {
+    "slug": "creative",
+    "name": "Creative & Lifestyle",
+    "short": "Creative",
+    "dial": "CRTV",
+    "what": "Creative, lifestyle & concept shoots",
+    "headline": "Creative and lifestyle photography",
+    "intro": "Concept shoots, editorials and lifestyle portraits where the idea leads, from dark garages to golden-hour bridges.",
+    "startingAt": "Request a quote",
+    "service": "",
+    "includes": [
+      "Concept development",
+      "Styling and location planning",
+      "Photo, video or both",
+      "Edited and graded selects"
+    ],
+    "items": [
+      {
+        "src": "/media/creative-01.jpg",
+        "pos": "50% 35%",
+        "alt": "Woman with red hair crouching on a dark parking garage road",
+        "tall": true
+      },
+      {
+        "src": "/media/creative-02.jpg",
+        "pos": "55% 40%",
+        "alt": "Close-up portrait of a woman with purple flowers",
+        "tall": true
+      },
+      {
+        "src": "/media/creative-03.jpg",
+        "pos": "50% 35%",
+        "alt": "Woman on a bridge at sunset with light flaring through her hair",
+        "tall": true
+      },
+      {
+        "src": "/media/creative-04.jpg",
+        "pos": "50% 30%",
+        "alt": "Black-and-white profile of a bearded man in a suit",
+        "tall": true
+      },
+      {
+        "src": "/media/creative-05.jpg",
+        "pos": "50% 50%",
+        "alt": "Silhouette of a man against a yellow halo of light"
+      },
+      {
+        "src": "/media/creative-06.jpg",
+        "pos": "50% 45%",
+        "alt": "Woman seated in a dark garage with a beam of light at her feet",
+        "tall": true
+      },
+      {
+        "src": "/media/creative-07.jpg",
+        "pos": "50% 40%",
+        "alt": "Hand pressed against a fogged glass window",
+        "tall": true
+      },
+      {
+        "src": "/media/creative-08.jpg",
+        "pos": "50% 35%",
+        "alt": "Woman posing against a blue corrugated wall",
+        "tall": true
+      },
+      {
+        "src": "/media/creative-09.jpg",
+        "pos": "50% 30%",
+        "alt": "Woman standing in the ocean at dusk",
+        "tall": true
+      }
+    ]
+  },
+  {
+    "slug": "fitness",
+    "name": "Fitness",
+    "short": "Fitness",
+    "dial": "FIT",
+    "what": "Trainers, athletes & fitness brands",
+    "headline": "Fitness photography in Atlanta",
+    "intro": "Movement, strength and personality for trainers, athletes and fitness brands, shot in the studio, the gym or the city.",
+    "startingAt": "Sessions from $600",
+    "service": "portraits",
+    "includes": [
+      "Indoor or outdoor sessions",
+      "Action and portrait shots",
+      "Content for social and ads",
+      "Edited and graded selects"
+    ],
+    "items": [
+      {
+        "src": "/media/fitness-01.jpg",
+        "pos": "50% 30%",
+        "alt": "Woman in a standing yoga pose against a blue sky",
+        "tall": true
+      },
+      {
+        "src": "/media/fitness-02.jpg",
+        "pos": "50% 45%",
+        "alt": "Black-and-white silhouette of a handstand against the city skyline",
+        "tall": true
+      },
+      {
+        "src": "/media/fitness-03.jpg",
+        "pos": "45% 30%",
+        "alt": "Woman in athleisure backlit by golden sunlight",
+        "tall": true
+      },
+      {
+        "src": "/media/fitness-04.jpg",
+        "pos": "50% 30%",
+        "alt": "Woman in a teal crop top beside a fence of love locks",
+        "tall": true
+      }
+    ]
+  },
+  {
+    "slug": "travel-street",
+    "name": "Travel & Street",
+    "short": "Travel",
+    "dial": "TRVL",
+    "what": "Travel & street, canvas prints",
+    "headline": "Travel and street photography",
+    "intro": "Light, water and the moments in between, available as canvas prints.",
+    "startingAt": "Ask about canvas prints",
+    "service": "",
+    "includes": [
+      "Canvas prints in several sizes",
+      "Travel shoots on request",
+      "Street and documentary style",
+      "Graded with The Big Picture look"
+    ],
+    "items": [
+      {
+        "src": "/media/travel-04.jpg",
+        "pos": "50% 40%",
+        "alt": "Brooklyn Bridge tower and cables against the sky",
+        "tall": true
+      },
+      {
+        "src": "/media/travel-05.jpg",
+        "pos": "50% 50%",
+        "alt": "Sunset over Lower Manhattan from the Brooklyn Bridge",
+        "tall": true
+      },
+      {
+        "src": "/media/travel-06.jpg",
+        "pos": "50% 50%",
+        "alt": "Silhouette of a person in the waves at sunset"
+      },
+      {
+        "src": "/media/travel-07.jpg",
+        "pos": "50% 50%",
+        "alt": "Night traffic seen through the Brooklyn Bridge"
+      },
+      {
+        "src": "/media/travel-1.jpg",
+        "pos": "50% 42%",
+        "tall": true,
+        "alt": "Golden sunset over the sea with a sailboat and silhouettes on the beach"
+      },
+      {
+        "src": "/media/travel-2.jpg",
+        "pos": "52% 40%",
+        "alt": "Man in a cap sitting on a pier looking out to sea at dusk"
+      }
     ]
   },
   {
@@ -75,9 +416,20 @@
     "intro": "Short films, full-length productions and brand films shot on a cinema camera, with a crew built for the project.",
     "startingAt": "Request a quote",
     "service": "films",
-    "includes": ["Development and pre-production", "Crew built for the project", "Cinema camera workflow", "Edit and color grade"],
+    "includes": [
+      "Development and pre-production",
+      "Crew built for the project",
+      "Cinema camera workflow",
+      "Edit and color grade"
+    ],
     "items": [
-      { "src": "/media/film-1.mp4", "poster": "/media/film-1-poster.jpg", "video": true, "pos": "50% 50%", "alt": "The Big Picture brand intro film" }
+      {
+        "src": "/media/film-1.mp4",
+        "poster": "/media/film-1-poster.jpg",
+        "video": true,
+        "pos": "50% 50%",
+        "alt": "The Big Picture brand intro film"
+      }
     ]
   },
   {
@@ -90,7 +442,12 @@
     "intro": "From one-location performance videos to full concept productions with a crew, multiple locations and extra deliverables.",
     "startingAt": "Starting at $1,200",
     "service": "music-videos",
-    "includes": ["Concept planning", "Shoot day on a cinema camera", "Edit and color grade", "Social cutdowns in higher tiers"],
+    "includes": [
+      "Concept planning",
+      "Shoot day on a cinema camera",
+      "Edit and color grade",
+      "Social cutdowns in higher tiers"
+    ],
     "items": []
   },
   {
@@ -103,20 +460,12 @@
     "intro": "Short, cinematic videos and photos for brands, restaurants, shops and local businesses, built for your website, ads and social.",
     "startingAt": "Starting at $800",
     "service": "promos",
-    "includes": ["Planning call and shot list", "On-location filming", "Edit and color grade", "Versions for web and social (16:9, 9:16, 1:1)"],
-    "items": []
-  },
-  {
-    "slug": "creative",
-    "name": "Creative",
-    "short": "Creative",
-    "dial": "CRTV",
-    "what": "Creative & concept shoots",
-    "headline": "Creative and concept shoots",
-    "intro": "Concept shoots, editorials and passion projects where the idea leads.",
-    "startingAt": "Request a quote",
-    "service": "",
-    "includes": ["Concept development", "Styling and location planning", "Photo, video or both", "Edited and graded selects"],
+    "includes": [
+      "Planning call and shot list",
+      "On-location filming",
+      "Edit and color grade",
+      "Versions for web and social (16:9, 9:16, 1:1)"
+    ],
     "items": []
   }
 ]

@@ -8,7 +8,7 @@
   const email = form.dataset.email;
   const callUrl = form.dataset.call;
   const min = Number(form.dataset.min || 800);
-  const PHOTO = ["portraits", "headshots"];
+  const PHOTO = ["portraits-headshots", "fitness"];
 
   const params = new URLSearchParams(location.search);
   const pre = params.get("service");
