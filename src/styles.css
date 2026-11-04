@@ -76,9 +76,12 @@ p { margin: 0 0 1em; }
 /* Header */
 .site-header { position: relative; z-index: 20; }
 .site-header .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px clamp(16px, 4vw, 44px); }
-.brand { display: flex; flex-direction: column; line-height: 1; text-decoration: none; color: inherit; }
-.brand .word { font-family: var(--display); font-weight: 700; font-size: clamp(22px, 2.6vw, 30px); color: #e9edf0; }
-.brand .sub { margin-top: 6px; font-size: 12px; letter-spacing: .32em; text-transform: uppercase; color: var(--mist); }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+.brand-mark { height: 68px; width: auto; }
+.brand-word { height: 50px; width: auto; }
+.brand-foot .brand-mark { height: 96px; }
+.brand-foot .brand-word { height: 52px; }
+@media (max-width: 560px) { .brand-mark { height: 50px; } .brand-word { height: 36px; } }
 .nav { display: flex; gap: 4px; align-items: center; }
 .nav a { font: 500 15px/1 var(--ui); letter-spacing: .14em; text-transform: uppercase; color: var(--chrome); text-decoration: none; border: 1px solid transparent; border-radius: 999px; padding: 10px 14px; }
 .nav a:hover, .nav a[aria-current="page"] { border-color: rgba(207, 214, 220, .25); }

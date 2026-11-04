@@ -2,6 +2,7 @@
 // Run: node build.mjs   → writes the finished site to ./dist
 import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { createHash } from "node:crypto";
 
 const ROOT = dirname(new URL(import.meta.url).pathname);
 const DIST = join(ROOT, "dist");
@@ -20,7 +21,11 @@ const catBySlug = Object.fromEntries(categories.map((c) => [c.slug, c]));
 const igUrl = site.instagram ? `https://instagram.com/${site.instagram.replace(/^@/, "")}` : "";
 const pages = [];
 
+// Cache-busting: every asset URL gets ?v=<hash of the code>, so browsers always load the latest styles and scripts.
+const VER = createHash("sha1").update(["styles.css", "js/camera.js", "js/gallery.js", "js/book.js", "js/site.js"].map((f) => readFileSync(join(ROOT, "src", f))).join("")).digest("hex").slice(0, 8);
+
 function write(path, html) {
+  html = html.replace(/(\/assets\/[\w\/.-]+\.(?:css|js))(?=["'])/g, `$1?v=${VER}`);
   const file = join(DIST, path, path.endsWith(".html") || path.endsWith(".xml") || path.endsWith(".txt") ? "" : "index.html");
   mkdirSync(dirname(file), { recursive: true });
   writeFileSync(file, html);
@@ -51,9 +56,9 @@ function header(path) {
   const nav = NAV.map(([href, label]) => `<a href="${href}"${path.startsWith(href) ? ' aria-current="page"' : ""}>${label}</a>`).join("");
   return `<header class="site-header">
   <div class="bar">
-    <a class="brand" href="/" aria-label="The Big Picture, film and photography, home">
-      <span class="word">The <b class="big">Big</b> Picture</span>
-      <span class="sub">Film / Photography · Atlanta, GA</span>
+    <a class="brand" href="/" aria-label="The Big Picture film/photography, home">
+      <img class="brand-mark" src="/brand/mark-light.png" alt="" width="194" height="320">
+      <img class="brand-word" src="/brand/wordmark-light.png" alt="The Big Picture film/photography" width="516" height="160">
     </a>
     <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
     <nav class="nav" id="site-nav" aria-label="Main">${nav}<a class="book" href="/book/">Book a shoot</a></nav>
@@ -71,7 +76,7 @@ function footer() {
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <div class="brand"><span class="word">The <b class="big">Big</b> Picture</span><span class="sub">Film / Photography · Atlanta, GA</span></div>
+        <div class="brand brand-foot"><img class="brand-mark" src="/brand/mark-light.png" alt="" width="194" height="320" loading="lazy"><img class="brand-word" src="/brand/wordmark-light.png" alt="The Big Picture film/photography" width="516" height="160" loading="lazy"></div>
         <p style="margin-top:16px;max-width:420px">${esc(site.travelNote)}</p>
       </div>
       <div><h4>Explore</h4><ul>${NAV.map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join("")}<li><a href="/book/">Book a shoot</a></li></ul></div>
@@ -105,9 +110,10 @@ function layout({ path, title, description, body, jsonLd = "", scripts = "", hom
 <meta property="og:title" content="${esc(fullTitle)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${url}">
-<meta property="og:image" content="${site.domain}${ogImage || "/media/portrait-2.jpg"}">
+<meta property="og:image" content="${site.domain}${ogImage || "/brand/og-image.jpg"}">
 <meta name="theme-color" content="#070d13">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-64.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;1,6..96,500&family=Barlow+Condensed:wght@400;500;600&display=swap">
@@ -242,7 +248,7 @@ function cameraSVG() {
   <path d="M 446 74 L 450 60 Q 451 56 456 56 H 504 Q 509 56 510 60 L 514 74 Z" fill="#202327" filter="url(#silicone)"/>
   <path d="M 452 59 H 508" stroke="#c9d4de" stroke-width="1" opacity=".35"/>
   <rect x="418" y="96" width="124" height="27" rx="3" fill="#060607" stroke="#3a3f45" stroke-width="1"/>
-  <text x="480" y="115" text-anchor="middle" font-family="Bodoni Moda, Didot, Georgia, serif" font-weight="700" font-size="14" fill="#f2f2f2">The <tspan fill="#d0142f">Big</tspan> Picture</text>
+  <image href="/brand/wordmark-light.png" x="423" y="98.5" width="114" height="22" preserveAspectRatio="xMidYMid meet"/>
 
   <!-- front details -->
   <circle cx="168" cy="206" r="20" fill="url(#hole)"/>
@@ -287,7 +293,8 @@ function home() {
     name: site.name,
     description: site.positioning,
     url: site.domain,
-    image: site.domain + "/media/portrait-2.jpg",
+    image: site.domain + "/brand/og-image.jpg",
+    logo: site.domain + "/icon-512.png",
     founder: { "@type": "Person", name: site.owner, alternateName: site.alias },
     address: { "@type": "PostalAddress", addressLocality: "Atlanta", addressRegion: "GA", addressCountry: "US" },
     areaServed: "Atlanta, GA",
