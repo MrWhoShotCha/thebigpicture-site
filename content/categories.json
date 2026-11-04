@@ -127,6 +127,66 @@
     ]
   },
   {
+    "slug": "music-videos",
+    "name": "Music Videos",
+    "short": "Music",
+    "dial": "MV",
+    "what": "Music videos for artists & labels",
+    "headline": "Music videos for Atlanta artists",
+    "intro": "From one-location performance videos to full concept productions with a crew, multiple locations and extra deliverables.",
+    "startingAt": "Starting at $1,200",
+    "service": "music-videos",
+    "includes": [
+      "Concept planning",
+      "Shoot day on a cinema camera",
+      "Edit and color grade",
+      "Social cutdowns in higher tiers"
+    ],
+    "items": [
+      {
+        "youtube": "XnDU3m7Piuc",
+        "title": "Just Dru, “Young Wild Free”",
+        "src": "https://i.ytimg.com/vi/XnDU3m7Piuc/maxresdefault.jpg",
+        "pos": "50% 50%",
+        "alt": "Just Dru, “Young Wild Free”"
+      }
+    ]
+  },
+  {
+    "slug": "commercials-promos",
+    "name": "Commercials & Promos",
+    "short": "Promos",
+    "dial": "PROMO",
+    "what": "Commercials, promos & content for businesses",
+    "headline": "Commercials and promo videos for Atlanta businesses",
+    "intro": "Short, cinematic videos and photos for brands, restaurants, shops and local businesses, built for your website, ads and social.",
+    "startingAt": "Starting at $800",
+    "service": "promos",
+    "includes": [
+      "Planning call and shot list",
+      "On-location filming",
+      "Edit and color grade",
+      "Versions for web and social (16:9, 9:16, 1:1)"
+    ],
+    "items": [
+      {
+        "youtube": "9qjbizYjnHc",
+        "title": "Sugar Factory commercial",
+        "src": "https://i.ytimg.com/vi/9qjbizYjnHc/sddefault.jpg",
+        "pos": "50% 50%",
+        "alt": "Sugar Factory commercial",
+        "lb": true
+      },
+      {
+        "youtube": "GOnoTzujuJk",
+        "title": "The Call (Living With Diabetes)",
+        "src": "https://i.ytimg.com/vi/GOnoTzujuJk/maxresdefault.jpg",
+        "pos": "50% 50%",
+        "alt": "The Call (Living With Diabetes)"
+      }
+    ]
+  },
+  {
     "slug": "weddings",
     "name": "Weddings",
     "short": "Weddings",
@@ -219,6 +279,13 @@
         "src": "/media/event-1.jpg",
         "pos": "50% 48%",
         "alt": "Group of men in suits holding maroon bags, with a man in a red jacket in front"
+      },
+      {
+        "youtube": "mWmQD2GI9gA",
+        "title": "Hitman Holla album release listening party recap",
+        "src": "https://i.ytimg.com/vi/mWmQD2GI9gA/maxresdefault.jpg",
+        "pos": "50% 50%",
+        "alt": "Hitman Holla album release listening party recap"
       }
     ]
   },
@@ -418,6 +485,21 @@
     ],
     "items": [
       {
+        "youtube": "h-fhlv7i_6o",
+        "title": "Happy Birthday, horror short for the Jakob Owens Short Film Contest 2026",
+        "src": "https://i.ytimg.com/vi/h-fhlv7i_6o/maxresdefault.jpg",
+        "pos": "50% 50%",
+        "alt": "Happy Birthday, horror short for the Jakob Owens Short Film Contest 2026"
+      },
+      {
+        "youtube": "gD5O5ptCsXE",
+        "title": "The Letter, short film",
+        "src": "https://i.ytimg.com/vi/gD5O5ptCsXE/hqdefault.jpg",
+        "pos": "50% 50%",
+        "alt": "The Letter, short film",
+        "lb": true
+      },
+      {
         "src": "/media/film-1.mp4",
         "poster": "/media/film-1-poster.jpg",
         "video": true,
@@ -425,41 +507,5 @@
         "alt": "The Big Picture brand intro film"
       }
     ]
-  },
-  {
-    "slug": "music-videos",
-    "name": "Music Videos",
-    "short": "Music",
-    "dial": "MV",
-    "what": "Music videos for artists & labels",
-    "headline": "Music videos for Atlanta artists",
-    "intro": "From one-location performance videos to full concept productions with a crew, multiple locations and extra deliverables.",
-    "startingAt": "Starting at $1,200",
-    "service": "music-videos",
-    "includes": [
-      "Concept planning",
-      "Shoot day on a cinema camera",
-      "Edit and color grade",
-      "Social cutdowns in higher tiers"
-    ],
-    "items": []
-  },
-  {
-    "slug": "commercials-promos",
-    "name": "Commercials & Promos",
-    "short": "Promos",
-    "dial": "PROMO",
-    "what": "Commercials, promos & content for businesses",
-    "headline": "Commercials and promo videos for Atlanta businesses",
-    "intro": "Short, cinematic videos and photos for brands, restaurants, shops and local businesses, built for your website, ads and social.",
-    "startingAt": "Starting at $800",
-    "service": "promos",
-    "includes": [
-      "Planning call and shot list",
-      "On-location filming",
-      "Edit and color grade",
-      "Versions for web and social (16:9, 9:16, 1:1)"
-    ],
-    "items": []
   }
 ]

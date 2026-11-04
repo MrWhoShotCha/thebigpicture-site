@@ -150,7 +150,7 @@ function categoryTile(c) {
   const cover = coverOf(c);
   const n = c.items.length;
   return `<a class="tile" href="/work/${c.slug}/">
-    ${cover ? `<img src="${esc(cover)}" alt="" loading="lazy" style="object-position:${esc(c.items[0].pos || "50% 50%")}">` : ""}
+    ${cover ? `<img src="${esc(cover)}" alt="" loading="lazy" style="object-position:${esc(c.items[0].pos || "50% 50%")}${c.items[0].lb ? ";transform:scale(1.34)" : ""}">` : ""}
     <span class="t-arrow">${n ? `${n} ${n === 1 ? "PIECE" : "PIECES"}` : "COMING SOON"}</span>
     <div class="t-body"><h3>${esc(c.name)}</h3><div class="t-meta">${esc(c.startingAt)}</div></div>
   </a>`;
@@ -377,8 +377,10 @@ ${ctaBand()}`;
 }
 
 function mediaTiles(items, label) {
-  return items.map((it, i) => `<button class="tile-m${it.tall ? "" : " wide"}" type="button" data-i="${i}" aria-label="View ${esc(label)} ${i + 1}">
-    ${it.video
+  return items.map((it, i) => `<button class="tile-m${it.youtube ? " yt" : it.tall ? "" : " wide"}" type="button" data-i="${i}" aria-label="${it.youtube ? `Watch ${esc(it.title || label)}` : `View ${esc(label)} ${i + 1}`}">
+    ${it.youtube
+      ? `<img src="${esc(it.src)}" alt="${esc(it.alt || "")}" loading="lazy"${it.lb ? ' class="lb"' : ""} onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${esc(it.youtube)}/hqdefault.jpg'"><span class="tag">▶ Watch</span>`
+      : it.video
       ? `<video src="${esc(it.src)}" poster="${esc(it.poster || "")}" muted loop playsinline autoplay preload="metadata" style="object-position:${esc(it.pos || "50% 50%")}"></video><span class="tag">Play with sound</span>`
       : `<img src="${esc(it.src)}" alt="${esc(it.alt || "")}" loading="lazy" style="object-position:${esc(it.pos || "50% 50%")}">`}
   </button>`).join("");

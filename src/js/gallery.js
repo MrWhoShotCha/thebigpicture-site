@@ -3,9 +3,19 @@ window.TBP = window.TBP || {};
 (() => {
   const $ = (id) => document.getElementById(id);
 
+  TBP.ytEmbed = (id) => `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+
   TBP.makeMedia = (it, { lens = false } = {}) => {
     let el;
-    if (it.video) {
+    if (it.youtube) {
+      // YouTube videos show their thumbnail; the video itself plays in the viewer.
+      el = document.createElement("img");
+      el.src = it.src;
+      el.alt = it.alt || it.title || "";
+      el.decoding = "async";
+      el.onerror = () => { el.onerror = null; el.src = `https://i.ytimg.com/vi/${it.youtube}/hqdefault.jpg`; };
+      if (it.lb) el.classList.add("lb");
+    } else if (it.video) {
       el = document.createElement("video");
       el.src = it.src;
       el.poster = it.poster || "";
@@ -36,6 +46,16 @@ window.TBP = window.TBP || {};
     const it = list[i];
     const stage = $("vStage");
     stage.innerHTML = "";
+    if (it.youtube) {
+      const f = document.createElement("iframe");
+      f.src = TBP.ytEmbed(it.youtube);
+      f.title = it.title || "Video";
+      f.allow = "autoplay; encrypted-media; fullscreen; picture-in-picture";
+      f.allowFullscreen = true;
+      stage.appendChild(f);
+      $("vPrev").style.display = $("vNext").style.display = list.length > 1 ? "" : "none";
+      return;
+    }
     const m = TBP.makeMedia(it);
     if (it.video) {
       m.controls = true;
@@ -59,6 +79,7 @@ window.TBP = window.TBP || {};
 
   function close() {
     $("vStage").querySelectorAll("video").forEach((v) => v.pause());
+    $("vStage").innerHTML = "";
     viewer.classList.remove("open");
     TBP.viewerOpen = false;
     if (returnFocus) returnFocus.focus();

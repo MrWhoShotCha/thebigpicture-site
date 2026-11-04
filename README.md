@@ -33,6 +33,7 @@ Live at https://thebigpicturevisuals.com
 - `pos` is the focus point (left% top%) so faces land in the middle of the round lens.
 - `tall: true` for portrait-orientation photos.
 - Videos: `{ "src": "/media/clip.mp4", "poster": "/media/clip.jpg", "video": true }`. Keep lens clips short, silent and under ~3 MB.
+- YouTube videos: `{ "youtube": "VIDEO_ID", "title": "Song — Artist", "src": "https://i.ytimg.com/vi/VIDEO_ID/maxresdefault.jpg", "pos": "50% 50%" }`. The thumbnail shows in the lens and galleries; the video plays in the viewer. Add `"lb": true` if the thumbnail has black bars (older uploads).
 - A category only appears in the home page camera once it has at least one item. Order in the file = order of the shutter cycle.
 
 **Add a project** (a single video with its own page) — add an entry to `content/projects.json`:

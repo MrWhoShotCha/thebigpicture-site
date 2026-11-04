@@ -164,12 +164,12 @@
     c.items.forEach((it, i) => {
       const b = document.createElement("button");
       b.type = "button";
-      b.className = "tile-m" + (it.tall ? "" : " wide");
+      b.className = "tile-m" + (it.youtube ? " yt" : it.tall ? "" : " wide");
       b.setAttribute("aria-label", `View ${c.name} ${i + 1}`);
       const m = TBP.makeMedia(it);
       if (it.video) { m.autoplay = true; m.play && m.play().catch(() => {}); }
       b.appendChild(m);
-      if (it.video) { const t = document.createElement("span"); t.className = "tag"; t.textContent = "Play with sound"; b.appendChild(t); }
+      if (it.video || it.youtube) { const t = document.createElement("span"); t.className = "tag"; t.textContent = it.youtube ? "▶ Watch" : "Play with sound"; b.appendChild(t); }
       b.addEventListener("click", () => TBP.openViewer(c.items, i));
       grid.appendChild(b);
     });
