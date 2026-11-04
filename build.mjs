@@ -478,7 +478,7 @@ ${ctaBand()}`;
 function aboutPage() {
   const body = `
 <section class="page-hero"><div class="wrap about-grid">
-  <div class="portrait-ph">Your photo here</div>
+  <div class="portrait-ph"><img src="/media/austin-best.jpg" alt="Austin J. Best, Mr. WhoShotCha, reaching toward the camera" width="1120" height="1400"></div>
   <div>
     <p class="eyebrow">About</p>
     <h1>Austin J. Best, aka Mr. WhoShotCha</h1>
@@ -493,7 +493,7 @@ function aboutPage() {
   </div>
 </div></section>
 ${ctaBand()}`;
-  write("/about/", layout({ path: "/about/", title: "About Austin J. Best (Mr. WhoShotCha)", description: "Meet Austin J. Best, aka Mr. WhoShotCha: 14 years filming and photographing in Atlanta, and the founder of The Big Picture.", body }));
+  write("/about/", layout({ path: "/about/", title: "About Austin J. Best (Mr. WhoShotCha)", description: "Meet Austin J. Best, aka Mr. WhoShotCha: 14 years filming and photographing in Atlanta, and the founder of The Big Picture.", body, ogImage: "/media/austin-best.jpg" }));
 }
 
 function faqPage() {
