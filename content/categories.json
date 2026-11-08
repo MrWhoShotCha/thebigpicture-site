@@ -493,6 +493,13 @@
     ],
     "items": [
       {
+        "src": "/media/intro.mp4",
+        "poster": "/media/intro-poster.jpg",
+        "video": true,
+        "pos": "54% 62%",
+        "alt": "The Big Picture intro film"
+      },
+      {
         "youtube": "RQfw3R0APLU",
         "title": "We Found What You’ve Been Looking For, short film (Director of Photography)",
         "src": "/media/thumb-we-found.jpg",
@@ -512,13 +519,6 @@
         "src": "/media/thumb-the-letter.jpg",
         "pos": "50% 50%",
         "alt": "The Letter, short film"
-      },
-      {
-        "src": "/media/film-1.mp4",
-        "poster": "/media/film-1-poster.jpg",
-        "video": true,
-        "pos": "50% 50%",
-        "alt": "The Big Picture brand intro film"
       }
     ]
   }
