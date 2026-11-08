@@ -62,11 +62,17 @@
     const btn = form.querySelector("button[type=submit]");
 
     if (endpoint) {
+      data.delete("_gotcha");
+      data.set("_subject", `New inquiry: ${serviceLabel} (${data.get("name") || "website"})`);
+      data.set("_template", "table");
+      data.set("_captcha", "false");
       btn.disabled = true;
       btn.textContent = "Sending…";
       try {
         const res = await fetch(endpoint, { method: "POST", body: data, headers: { Accept: "application/json" } });
         if (!res.ok) throw new Error(res.status);
+        const out = await res.json().catch(() => ({}));
+        if (String(out.success) === "false") throw new Error(out.message || "not sent");
         show(nextStep(data));
       } catch (err) {
         btn.disabled = false;
