@@ -125,6 +125,7 @@ ${jsonLd}
 <a class="skip-link" href="#main">Skip to content</a>
 ${brandify(page)}
 ${data}
+<script src="/assets/js/debug.js"></script>
 <script src="/assets/js/site.js" defer></script>
 ${scripts}
 </body>
