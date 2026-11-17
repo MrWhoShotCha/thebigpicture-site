@@ -99,20 +99,25 @@ window.TBP = window.TBP || {};
     show(i);
     viewer.classList.add("open");
     TBP.viewerOpen = true;
+    // Let the phone/browser Back button close the viewer instead of leaving the page.
+    try { history.pushState({ tbpViewer: true }, ""); } catch (_) {}
     $("vClose").focus();
   };
 
-  function close() {
+  function close(fromHistory) {
+    if (!TBP.viewerOpen) return;
     ytFrame = null;
     $("vStage").querySelectorAll("video").forEach((v) => v.pause());
     $("vStage").innerHTML = "";
     viewer.classList.remove("open");
     TBP.viewerOpen = false;
+    if (fromHistory !== true && history.state && history.state.tbpViewer) { try { history.back(); } catch (_) {} }
     if (returnFocus) returnFocus.focus();
   }
+  window.addEventListener("popstate", () => { if (TBP.viewerOpen) close(true); });
   const step = (d) => { if (list.length > 1) show((index + d + list.length) % list.length); };
 
-  $("vClose").addEventListener("click", close);
+  $("vClose").addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); close(); });
   $("vPrev").addEventListener("click", () => step(-1));
   $("vNext").addEventListener("click", () => step(1));
   viewer.addEventListener("click", (e) => { if (e.target === viewer) close(); });

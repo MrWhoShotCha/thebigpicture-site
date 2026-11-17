@@ -46,10 +46,10 @@ const NAV = [
 
 const viewerMarkup = `
 <div class="viewer" id="viewer" role="dialog" aria-label="Full view">
-  <button class="btn close-btn" id="vClose" type="button">Close</button>
-  <button class="step prev" id="vPrev" type="button" aria-label="Previous">‹</button>
+  <button class="btn close-btn" id="vClose" type="button" aria-label="Close">✕ Close</button>
+  <button class="vstep prev" id="vPrev" type="button" aria-label="Previous">‹</button>
   <div id="vStage"></div>
-  <button class="step next" id="vNext" type="button" aria-label="Next">›</button>
+  <button class="vstep next" id="vNext" type="button" aria-label="Next">›</button>
 </div>`;
 
 function header(path) {
