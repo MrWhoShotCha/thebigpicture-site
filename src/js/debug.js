@@ -4,7 +4,9 @@
   const box = document.createElement("pre");
   box.style.cssText = "position:fixed;left:8px;bottom:8px;z-index:2147483647;max-width:46vw;max-height:40vh;overflow:auto;margin:0;padding:10px;background:#000;color:#0f0;font:12px/1.35 monospace;border:1px solid #0f0;pointer-events:none;white-space:pre-wrap";
   const lines = [];
-  const log = (s) => { lines.push(new Date().toTimeString().slice(0, 8) + " " + s); while (lines.length > 18) lines.shift(); box.textContent = lines.join("\n"); if (typeof clock !== "undefined") box.prepend(clock); };
+  const clock = document.createElement("div");
+  clock.style.cssText = "color:#ff0";
+  const log = (s) => { lines.push(new Date().toTimeString().slice(0, 8) + " " + s); while (lines.length > 18) lines.shift(); box.textContent = lines.join("\n"); box.prepend(clock); };
   const desc = (el) => el ? (el.tagName + (el.id ? "#" + el.id : "") + (el.className && typeof el.className === "string" ? "." + el.className.trim().split(/\s+/).join(".") : "")).slice(0, 60) : "null";
   addEventListener("DOMContentLoaded", () => document.body.appendChild(box));
   if (document.body) document.body.appendChild(box);
@@ -22,8 +24,6 @@
   addEventListener("focus", () => log("window focus"));
   addEventListener("blur", () => log("window blur"));
   document.addEventListener("visibilitychange", () => log("visibility " + document.visibilityState));
-  const clock = document.createElement("div");
-  clock.style.cssText = "color:#ff0";
   setInterval(() => { clock.textContent = "alive " + new Date().toTimeString().slice(0, 8) + " · mouse moves " + moves; if (!clock.isConnected) box.prepend(clock); }, 250);
   setInterval(() => {
     const v = document.getElementById("viewer"), g = document.getElementById("lensgal");
